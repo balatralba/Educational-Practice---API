@@ -17,7 +17,7 @@ namespace EducationalPracticeAPI.Models
         [Column("weekday_id")]
         public int WeekdayId { get; set; }
 
-        [ForeignKey("Weekday")]
+        [ForeignKey("WeekdayId")]
         public Weekday Weekday { get; set; } = null!;
 
         [Column("lesson_time_id")]

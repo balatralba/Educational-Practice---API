@@ -1,4 +1,5 @@
 using EducationalPracticeAPI.Data;
+using EducationalPracticeAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

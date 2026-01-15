@@ -20,7 +20,7 @@ namespace EducationalPracticeAPI.Models
         [Column("specialty_id")]
         public int SpecialtyId { get; set; }
 
-        [ForeignKey("SpesialtyId")]
+        [ForeignKey("SpecialtyId")]
         public Specialty Specialty { get; set; } = null!;
     }
 }

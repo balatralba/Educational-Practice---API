@@ -57,15 +57,15 @@ namespace EducationalPracticeAPI.Services
 
         private static List<ScheduleByDateDto> BuildScheduleDto(DateTime startDate, DateTime endDate, List<Schedule> schedules)
         {
-            var scheduleByDate = GroupSchedulesByDate(schedules);
+            Dictionary<DateTime, List<Schedule>> scheduleByDate = GroupSchedulesByDate(schedules);
 
-            var result = new List<ScheduleByDateDto>();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+            List<ScheduleByDateDto> result = new List<ScheduleByDateDto>();
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Sunday)
                     continue;
 
-                if (!scheduleByDate.TryGetValue(date, out var daySchedules))
+                if (!scheduleByDate.TryGetValue(date, out List<Schedule>? daySchedules))
                 {
                     result.Add(BuildEmptyDayDto(date));
                 }
@@ -80,14 +80,14 @@ namespace EducationalPracticeAPI.Services
 
         private static LessonDto BuildLessonDto(IGrouping<dynamic, Schedule> lessonGroup)
         {
-            var lessonDto = new LessonDto
+            LessonDto lessonDto = new LessonDto
             {
                 LessonNumber = lessonGroup.Key.LessonNumber,
                 Time = $"{lessonGroup.Key.TimeStart:hh\\:mm} {lessonGroup.Key.TimeEnd:hh\\:mm}", 
                 GroupParts = new Dictionary<LessonGroupPart, LessonDto?>()
             }; 
  
-            foreach (var part in lessonGroup) 
+            foreach (Schedule? part in lessonGroup) 
             { 
                 lessonDto.GroupParts[part.GroupPart] = new LessonDto 
                 { 
@@ -115,7 +115,7 @@ namespace EducationalPracticeAPI.Services
 
         private static ScheduleByDateDto BuildDayDto(List<Schedule> daySchedules)
         {
-            var lessons = daySchedules
+            List<LessonDto>? lessons = daySchedules
                 .GroupBy(s => new {
                     s.LessonTime.LessonNumber,
                     s.LessonTime.TimeStart,

@@ -8,14 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
 
-string connectionStrig =
-    $"Host={Environment.GetEnvironmentVariable("DB_HOST")}" +
-    $"Port={Environment.GetEnvironmentVariable("DB_PORT")}" +
-    $"Database={Environment.GetEnvironmentVariable("DB_Name")}" +
-    $"Username={Environment.GetEnvironmentVariable("DB_USER")}" +
+string connectionString =
+    $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
+    $"Port={Environment.GetEnvironmentVariable("DB_PORT")};" +
+    $"Database={Environment.GetEnvironmentVariable("DB_Name")};" +
+    $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
     $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionStrig));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 

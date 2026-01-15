@@ -15,5 +15,12 @@ namespace EducationalPracticeAPI.Controllers
         {
             _service = service;
         }
+
+        [HttpGet("group/{groupName}")]
+        public async Task<IActionResult> GetSchedule(string groupName, DateTime start, DateTime end)
+        {
+            var result = await _service.GetScheduleForGroup(groupName, start.Date, end.Date);
+            return Ok(result);
+        }
     }
 }

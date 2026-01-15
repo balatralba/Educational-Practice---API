@@ -1,6 +1,22 @@
+using EducationalPracticeAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+DotNetEnv.Env.Load();
+
+string connectionStrig =
+    $"Host={Environment.GetEnvironmentVariable("DB_HOST")}" +
+    $"Port={Environment.GetEnvironmentVariable("DB_PORT")}" +
+    $"Database={Environment.GetEnvironmentVariable("DB_Name")}" +
+    $"Username={Environment.GetEnvironmentVariable("DB_USER")}" +
+    $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionStrig));
+
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,6 +35,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseRouting();
 
 app.MapControllers();
 

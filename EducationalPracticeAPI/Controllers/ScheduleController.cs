@@ -1,4 +1,5 @@
 ﻿using EducationalPracticeAPI.Data;
+using EducationalPracticeAPI.DTO;
 using EducationalPracticeAPI.Models;
 using EducationalPracticeAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,10 @@ namespace EducationalPracticeAPI.Controllers
         [HttpGet("group/{groupName}")]
         public async Task<IActionResult> GetSchedule(string groupName, DateTime start, DateTime end)
         {
-            var result = await _service.GetScheduleForGroup(groupName, start.Date, end.Date);
+            List<ScheduleByDateDto> result = await _service.GetScheduleForGroup(groupName, start.Date, end.Date);
             return Ok(result);
         }
     }
 }
+
+    

@@ -18,7 +18,7 @@ namespace EducationalPracticeAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("group/all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetGroups()
         {
             List<GroupDto> result = await _service.GetAllGroups();
